@@ -1,3 +1,11 @@
+# Check if PowerShell is running as Administrator
+if (-not ([System.Security.Principal.WindowsPrincipal] [System.Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Output "This script requires administrator privileges. Re-launching as Administrator..."
+    # Re-launch the script with elevated permissions
+    Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+    exit
+}
+
 # Define the service name
 $serviceName = "NetworkLimitService"
 
